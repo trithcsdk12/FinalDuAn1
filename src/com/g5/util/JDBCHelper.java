@@ -19,13 +19,12 @@ public class JDBCHelper {
     public static final Properties props = JDBCHelper.loadDbProperties();
     private static Connection connection = null;
 
-//    private static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-//    private static String dburl = "jdbc:sqlserver://localhost;encrypt=true;trustServerCertificate=true;database=Polypro";
-//    private static String username = "sa";
-//    private static String password = "123";
-//;encrypt=true;trustServerCertificate=true
-    // 1433
-
+    
+    private static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+    private static String url = "jdbc:sqlserver://localhost:1433;encrypt=true;trustServerCertificate=true;database=QuanLyQuanCaPhe_DuAn1";
+    private static  String url2 = "jdbc:sqlserver://SoloStore.mssql.somee.com;database=SoloStore;encrypt=true;trustServerCertificate=true";
+    private static String username = "sa";
+    private static String password = "123456";
     /*
 * Nạp driver
      */

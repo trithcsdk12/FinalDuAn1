@@ -4,9 +4,13 @@
  */
 package com.g5.form;
 
+import com.g5.entity.HoaDon;
 import com.g5.entityDAO.HoaDonDAO;
 import com.g5.entityDAO.ThongKeDAO;
 import com.toedter.calendar.JDateChooser;
+import java.text.DecimalFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import javax.swing.table.DefaultTableModel;
@@ -27,32 +31,83 @@ public class ThongKeJPanel extends javax.swing.JPanel {
     public ThongKeJPanel() {
         initComponents();
     }
-    //    void fillDateChooserNgay() {
-////        DefaultComboBoxModel<Date> model = (DefaultComboBoxModel<Date>) dataChooser.getModel();
-//        List<HoaDon> list = hddao.getAll();
-//        double TongDoanhThu = 0;
-//        dataChooser.setDate(null);
-//
-//        for (HoaDon hd : list) {
-//            Date ngay = hd.getNgayTao();
-//            dataChooser.setDate(ngay);
-//
-//            TongDoanhThu += hd.getTongTien();
-//
-//        }
-//        lblTongDoanhThu.setText("Tong doanh thu: " + TongDoanhThu);
-//    }
+    // Bang HoaDon
+    private void fillDateChooserNgay() {
+        Date date = new Date();// lây day hien tai
+        dcrNgay.setDate(date);//dat ngay hien tai cho JDate
+    }
 
-    void fillTableHoaDon() {
+    private void fillTableHoaDon() {
         DefaultTableModel model = (DefaultTableModel) tblHoaDon.getModel();
         model.setRowCount(0);
-        int ngay = Integer.parseInt(dcrNgay.getDateFormatString());
 
-        List<Object[]> list = dao.getHoaDon(ngay);
+        Date hd = dcrNgay.getDate();
+        if (hd == null) {
+            return;
+        }
+        List<Object[]> list = dao.getHoaDon(hd.getDate());
         for (Object[] row : list) {
             model.addRow(row);
         }
+    }
 
+    private void TongDoanhThu() {
+        double totalRevenue = calculateTotalRevenue();
+
+        String formattedTotalRevenue = formatCurrency(totalRevenue); // Định dạng số tiền thành định dạng tiền tệ
+
+        lblTongDoanhThu.setText("Tổng doanh thu: " + formattedTotalRevenue);
+    }
+
+    private double calculateTotalRevenue() {
+        double totalRevenue = 0.0;
+        //Thuc hien tinh tong DT 
+        return totalRevenue;
+    }
+
+    private String formatCurrency(double amount) {
+        return String.format("%.2f", amount); // %
+    }
+    
+    //Bang TheoThang
+    private void fillJDateChooserThang() {
+        //Hien thi thoi gian thang tren JDate
+        Calendar calendar = Calendar.getInstance();
+        dataChooser.setCalendar(calendar);
+    }
+
+    private void fillTableTheoThang() {
+        // Lay thgian tu JDate
+        Calendar calendar = dataChooser.getCalendar();
+        int thang = calendar.get(Calendar.MONTH);
+        int nam = calendar.get(Calendar.YEAR);
+    }
+
+    private void TongDoanhThuTheo() {
+        // Lấy thời gian tháng từ JDateChooser
+        Calendar calendar = dataChooser.getCalendar();
+        int thang = calendar.get(Calendar.MONTH);
+        int nam = calendar.get(Calendar.YEAR);
+
+        double totalRevenue = 0.0; //Tong dthu tinh duoc
+
+        String formattedTotalRevenue = formatCurrency(totalRevenue); //Dinh dang tien te
+
+        lblTongDoanhThu.setText("Tổng doanh thu tháng " + (thang + 1) + "/" + nam + ": " + formattedTotalRevenue);
+    }
+
+    private String formatCurrency(int amount) {
+        return String.format("%.2f", amount); // %
+    }
+    
+    //ThongKeTheoKhoangTG
+    
+    private void fillJDateChooser(Date TuDate, Date DenDate){
+        dcrDen1.setDate(TuDate);
+        dcrTu1.setDate(DenDate);
+    }
+    private void fillTableTheoTG(){
+        
     }
 
     /**
@@ -97,8 +152,8 @@ public class ThongKeJPanel extends javax.swing.JPanel {
         lblTongTGNgay = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
-        jDateChooser3 = new com.toedter.calendar.JDateChooser();
+        dcrTu1 = new com.toedter.calendar.JDateChooser();
+        dcrDen1 = new com.toedter.calendar.JDateChooser();
         jScrollPane12 = new javax.swing.JScrollPane();
         tblNgay1 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
@@ -129,7 +184,7 @@ public class ThongKeJPanel extends javax.swing.JPanel {
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 51, 0));
-        jLabel8.setText("Tổng Doanh Thu : ");
+        jLabel8.setText("Tổng Doanh Thu Day : ");
 
         lblTongDoanhThu.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblTongDoanhThu.setForeground(new java.awt.Color(255, 0, 0));
@@ -237,9 +292,8 @@ public class ThongKeJPanel extends javax.swing.JPanel {
                                 .addComponent(lblTongThang))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jDateChooser5, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(390, 390, 390))))
+                                .addGap(29, 29, 29)
+                                .addComponent(jDateChooser5, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(151, 151, 151)
                         .addComponent(jLabel6))
@@ -406,22 +460,22 @@ public class ThongKeJPanel extends javax.swing.JPanel {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(57, 57, 57)
+                                .addGap(18, 18, 18)
+                                .addComponent(dcrTu1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(45, 45, 45)
                                 .addComponent(jLabel16))
                             .addComponent(jLabel14))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblTongTGNgay)
-                            .addComponent(jDateChooser3, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(dcrDen1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(120, 120, 120)
                         .addComponent(jLabel11))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(74, 74, 74)
+                        .addGap(25, 25, 25)
                         .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 826, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -430,17 +484,17 @@ public class ThongKeJPanel extends javax.swing.JPanel {
                 .addComponent(jLabel11)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jDateChooser3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(dcrDen1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(dcrTu1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel2))
                 .addGap(31, 31, 31)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
                     .addComponent(lblTongTGNgay))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41))
+                .addGap(47, 47, 47))
         );
 
         tabs.addTab("Khoảng Thời Gian", jPanel2);
@@ -487,10 +541,10 @@ public class ThongKeJPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser dcrDen1;
     private com.toedter.calendar.JDateChooser dcrNgay;
+    private com.toedter.calendar.JDateChooser dcrTu1;
     private com.toedter.calendar.JDateChooser jDateChooser1;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
-    private com.toedter.calendar.JDateChooser jDateChooser3;
     private com.toedter.calendar.JDateChooser jDateChooser4;
     private com.toedter.calendar.JDateChooser jDateChooser5;
     private javax.swing.JLabel jLabel1;

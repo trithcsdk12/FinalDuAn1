@@ -157,7 +157,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="0" green="33" red="ff" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="T&#x1ed5;ng Doanh Thu : "/>
+                <Property name="text" type="java.lang.String" value="T&#x1ed5;ng Doanh Thu Day : "/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblTongDoanhThu">
@@ -214,9 +214,8 @@
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
+                                      <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                                       <Component id="jDateChooser5" min="-2" pref="150" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="390" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -537,9 +536,9 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
                                       <Component id="jLabel2" min="-2" pref="42" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="jDateChooser2" min="-2" pref="127" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="dcrTu1" min="-2" pref="127" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
                                       <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="jLabel14" min="-2" max="-2" attributes="0"/>
@@ -547,7 +546,7 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="lblTongTGNgay" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jDateChooser3" min="-2" pref="119" max="-2" attributes="0"/>
+                                  <Component id="dcrDen1" min="-2" pref="119" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -555,11 +554,11 @@
                               <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
                               <Component id="jScrollPane12" min="-2" pref="826" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="55" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -570,9 +569,9 @@
                       <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jDateChooser3" max="32767" attributes="0"/>
+                          <Component id="dcrDen1" max="32767" attributes="0"/>
                           <Component id="jLabel16" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="jDateChooser2" alignment="0" max="32767" attributes="0"/>
+                          <Component id="dcrTu1" alignment="0" max="32767" attributes="0"/>
                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
@@ -580,9 +579,9 @@
                           <Component id="jLabel14" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="lblTongTGNgay" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="jScrollPane12" min="-2" pref="241" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -643,9 +642,9 @@
                 <Property name="text" type="java.lang.String" value="Ch&#x1ecd;n th&#x1edd;i gian c&#x1ea7;n xem"/>
               </Properties>
             </Component>
-            <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser2">
+            <Component class="com.toedter.calendar.JDateChooser" name="dcrTu1">
             </Component>
-            <Component class="com.toedter.calendar.JDateChooser" name="jDateChooser3">
+            <Component class="com.toedter.calendar.JDateChooser" name="dcrDen1">
             </Component>
             <Container class="javax.swing.JScrollPane" name="jScrollPane12">
               <AuxValues>

@@ -28,7 +28,7 @@ public class ThongKeDAO {
                     list.add(model);
                 }
             } finally {
-            //    rs.getStatement().getConnection().close();
+                rs.getStatement().getConnection().close();
 
             }
         } catch (SQLException e) {
@@ -52,7 +52,7 @@ public class ThongKeDAO {
                     };
                 }
             } finally {
-              //  rs.getStatement().getConnection().close();
+                rs.getStatement().getConnection().close();
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -65,7 +65,7 @@ public class ThongKeDAO {
         try {
             ResultSet rs = null;
             try {
-                String sql = "{call sp_ThongKeSP (?) (?)}";
+                String sql = "{call sp_ThongKeSP (?, ?)}";
                 rs = JDBCHelper.executeQuery(sql, tu, den);
                 while (rs.next()) {
                     Object[] model = {
@@ -76,7 +76,7 @@ public class ThongKeDAO {
                     };
                 }
             } finally {
-             //   rs.getStatement().getConnection().close();
+                rs.getStatement().getConnection().close();
             }
         } catch (SQLException e) {
             throw new RuntimeException();
@@ -89,7 +89,7 @@ public class ThongKeDAO {
         try {
             ResultSet rs = null;
             try {
-                String sql = "{call sp_ThongKeTheoTG (?) (?)}";
+                String sql = "{call sp_ThongKeTheoTG (? ,?)}";
                 rs = JDBCHelper.executeQuery(sql, tu, den);
                 while (rs.next()) {
                     Object[] model = {
@@ -99,7 +99,7 @@ public class ThongKeDAO {
                     };
                 }
             } finally {
-             //   rs.getStatement().getConnection().close();
+                rs.getStatement().getConnection().close();
             }
         } catch (SQLException e) {
             throw new RuntimeException();
