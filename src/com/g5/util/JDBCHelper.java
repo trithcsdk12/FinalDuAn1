@@ -18,13 +18,6 @@ public class JDBCHelper {
 
     public static final Properties props = JDBCHelper.loadDbProperties();
     private static Connection connection = null;
-
-    
-    private static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    private static String url = "jdbc:sqlserver://localhost:1433;encrypt=true;trustServerCertificate=true;database=QuanLyQuanCaPhe_DuAn1";
-    private static  String url2 = "jdbc:sqlserver://SoloStore.mssql.somee.com;database=SoloStore;encrypt=true;trustServerCertificate=true";
-    private static String username = "sa";
-    private static String password = "123456";
     /*
 * Nạp driver
      */
@@ -46,6 +39,7 @@ public class JDBCHelper {
         try {
             con = DriverManager.getConnection(url, user, pass);
         } catch (Exception e) {
+            e.printStackTrace();
         }
 
         try {
@@ -146,6 +140,6 @@ public class JDBCHelper {
 
         Connection c = connection;
 
-        //    System.out.println(props.getProperty("url"));
+            System.out.println(props.getProperty("url"));
     }
 }
