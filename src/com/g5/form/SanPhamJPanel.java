@@ -5,6 +5,7 @@
 package com.g5.form;
 
 import com.g5.entity.SanPham;
+import com.g5.entityDAO.SanPhamChiTietDAO;
 import com.g5.entityDAO.SanPhamDao;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
@@ -17,6 +18,7 @@ public class SanPhamJPanel extends javax.swing.JPanel {
 
     int row = -1;
     SanPhamDao dao = new SanPhamDao();
+    SanPhamChiTietDAO daoCT = new SanPhamChiTietDAO();
 
     /**
      * Creates new form SanPhamJPanel
@@ -27,6 +29,7 @@ public class SanPhamJPanel extends javax.swing.JPanel {
         setSize(1100, 800);
         fillTableDSSP();
         fillTableSPCT();
+        first();
     }
 
     void fillTableDSSP() {
@@ -38,7 +41,7 @@ public class SanPhamJPanel extends javax.swing.JPanel {
                 Object row[] = {
                     sp.getMaSP(),
                     sp.getTenSP(),
-                    sp.isTrangthai(),
+                    sp.isTrangthai() ? "Còn" : "Hết",
                     sp.getMaNV(),
                     sp.getMoTa(),
                     sp.getHinh(),
@@ -55,7 +58,7 @@ public class SanPhamJPanel extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tblChiTiet.getModel();
         model.setRowCount(0);
         try {
-            List<SanPham> list = dao.getAll();
+            List<SanPham> list = daoCT.getAll();
             for (SanPham sp : list) {
                 Object row[] = {
                     sp.getMaGSP(),
@@ -70,6 +73,63 @@ public class SanPhamJPanel extends javax.swing.JPanel {
         }
     }
 
+    void first() {
+        this.row = 0;
+        this.edit();
+    }
+
+    void prev() {
+        if (this.row > 0) {
+            this.row--;
+            this.edit();
+        }
+    }
+
+    void next() {
+        if (this.row < tblSanPham.getRowCount() - 1) {
+            this.row++;
+            this.edit();
+        }
+    }
+
+    void last() {
+        this.row = tblSanPham.getRowCount() - 1;
+        this.edit();
+    }
+    
+    void edit() {
+        Integer maSP = (Integer) tblSanPham.getValueAt(this.row, 0);
+        SanPham sp = dao.getByID(maSP);
+        this.setForm(sp);
+        this.updateStatus();
+    }
+    
+    void setForm(SanPham sp) {
+        txtMaSP.setText(String.valueOf(sp.getMaSP()));
+        txtTenSP.setText(sp.getTenSP());
+        txtMaNV.setText(String.valueOf(sp.getMaNV()));
+        cboLoaiSP.setSelectedItem(sp.getLoaiSP());
+        txtMoTa.setText(sp.getMoTa());
+        if(sp.isTrangthai() == true){
+            rdoCon.setSelected(true);
+        }else if(sp.isTrangthai() == false){
+            rdoHet.setSelected(true);
+        }
+    }
+    
+    void updateStatus() {
+        boolean edit = (this.row >= 0);
+        boolean first = (this.row == 0);
+        boolean last = (this.row == tblSanPham.getRowCount() - 1);
+        txtMaNV.setEditable(!edit);
+        btnThem.setEnabled(!edit);
+        btnSua.setEnabled(edit);
+        btnXoa.setEnabled(edit);
+        btnFirst.setEnabled(edit && !first);
+        btnPrev.setEnabled(edit && !first);
+        btnNext.setEnabled(edit && !last);
+        btnLast.setEnabled(edit && !last);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -100,7 +160,7 @@ public class SanPhamJPanel extends javax.swing.JPanel {
         btnThem = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
-        btnPirst = new javax.swing.JButton();
+        btnFirst = new javax.swing.JButton();
         btnPrev = new javax.swing.JButton();
         btnNext = new javax.swing.JButton();
         btnLast = new javax.swing.JButton();
@@ -127,13 +187,13 @@ public class SanPhamJPanel extends javax.swing.JPanel {
         btnMoi1 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblChiTiet = new javax.swing.JTable();
-        btnPirst1 = new javax.swing.JButton();
+        btnFirst1 = new javax.swing.JButton();
         btnPrev1 = new javax.swing.JButton();
         btnNext1 = new javax.swing.JButton();
         btnLast1 = new javax.swing.JButton();
         lblTimKiem = new javax.swing.JLabel();
 
-        setPreferredSize(new java.awt.Dimension(1200, 800));
+        setPreferredSize(new java.awt.Dimension(1350, 800));
 
         lblDSSP.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblDSSP.setText("Danh sách sản phẩm");
@@ -192,11 +252,21 @@ public class SanPhamJPanel extends javax.swing.JPanel {
         btnSua.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnSua.setText("Sửa");
 
-        btnPirst.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnPirst.setText("<|");
+        btnFirst.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnFirst.setText("<|");
+        btnFirst.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFirstActionPerformed(evt);
+            }
+        });
 
         btnPrev.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnPrev.setText("<<");
+        btnPrev.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrevActionPerformed(evt);
+            }
+        });
 
         btnNext.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnNext.setText(">>");
@@ -208,6 +278,11 @@ public class SanPhamJPanel extends javax.swing.JPanel {
 
         btnLast.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnLast.setText("|>");
+        btnLast.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLastActionPerformed(evt);
+            }
+        });
 
         tblSanPham.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -223,6 +298,9 @@ public class SanPhamJPanel extends javax.swing.JPanel {
         tblSanPham.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblSanPhamMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tblSanPhamMousePressed(evt);
             }
         });
         jScrollPane10.setViewportView(tblSanPham);
@@ -287,8 +365,8 @@ public class SanPhamJPanel extends javax.swing.JPanel {
         ));
         jScrollPane2.setViewportView(tblChiTiet);
 
-        btnPirst1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnPirst1.setText("<|");
+        btnFirst1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnFirst1.setText("<|");
 
         btnPrev1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnPrev1.setText("<<");
@@ -310,7 +388,7 @@ public class SanPhamJPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnPirst1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnFirst1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(35, 35, 35)
                         .addComponent(btnPrev1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -325,14 +403,13 @@ public class SanPhamJPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnMoi1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(38, 38, 38)
-                        .addComponent(btnThem1, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(46, 46, 46)
-                        .addComponent(btnXoa1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnSua1)
-                        .addGap(9, 9, 9))
+                        .addComponent(btnMoi1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnThem1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnXoa1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSua1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lblMaGSP, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -387,7 +464,7 @@ public class SanPhamJPanel extends javax.swing.JPanel {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnPirst1)
+                    .addComponent(btnFirst1)
                     .addComponent(btnPrev1)
                     .addComponent(btnNext1)
                     .addComponent(btnLast1))
@@ -416,7 +493,7 @@ public class SanPhamJPanel extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnSua)
                                 .addGap(21, 21, 21)
-                                .addComponent(btnPirst)
+                                .addComponent(btnFirst)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnPrev)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -466,7 +543,7 @@ public class SanPhamJPanel extends javax.swing.JPanel {
                     .addComponent(jScrollPane10))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -511,7 +588,7 @@ public class SanPhamJPanel extends javax.swing.JPanel {
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(btnPirst, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnFirst, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(btnPrev, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(btnLast, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -533,9 +610,7 @@ public class SanPhamJPanel extends javax.swing.JPanel {
 
     private void tblSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamMouseClicked
         // TODO add your handling code here:
-        if (evt.getClickCount() == 2) {
-            this.row = tblSanPham.getSelectedRow();
-        }
+        
     }//GEN-LAST:event_tblSanPhamMouseClicked
 
     private void btnMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoiActionPerformed
@@ -556,18 +631,40 @@ public class SanPhamJPanel extends javax.swing.JPanel {
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
         // TODO add your handling code here:
+        next();
     }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnFirstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFirstActionPerformed
+        // TODO add your handling code here:
+        first();
+    }//GEN-LAST:event_btnFirstActionPerformed
+
+    private void btnPrevActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrevActionPerformed
+        // TODO add your handling code here:
+        prev();
+    }//GEN-LAST:event_btnPrevActionPerformed
+
+    private void btnLastActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLastActionPerformed
+        // TODO add your handling code here:
+        last();
+    }//GEN-LAST:event_btnLastActionPerformed
+
+    private void tblSanPhamMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamMousePressed
+        // TODO add your handling code here:
+            this.row = tblSanPham.getSelectedRow();
+            this.edit();
+    }//GEN-LAST:event_tblSanPhamMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnFirst;
+    private javax.swing.JButton btnFirst1;
     private javax.swing.JButton btnLast;
     private javax.swing.JButton btnLast1;
     private javax.swing.JButton btnMoi;
     private javax.swing.JButton btnMoi1;
     private javax.swing.JButton btnNext;
     private javax.swing.JButton btnNext1;
-    private javax.swing.JButton btnPirst;
-    private javax.swing.JButton btnPirst1;
     private javax.swing.JButton btnPrev;
     private javax.swing.JButton btnPrev1;
     private javax.swing.JButton btnSua;
