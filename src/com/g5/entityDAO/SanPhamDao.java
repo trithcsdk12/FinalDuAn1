@@ -21,34 +21,34 @@ public class SanPhamDao implements SanPhamDAOinterface {
 
     String selectByID = "select * from SanPham where MaSP = ?";
     String selectAll = "select * from SanPham";
-    String insert = "insert into SanPham (TenSP,TrangThai,MaNV,MoTa,Hinh,LoaiSP,Gia,GiaSizeLon) "
-            + "values (?,?,?,?,?,?,?,?)";
-    String update = "Update SanPham set TenSP=?, TrangThai=?, MaNV=?, MoTa=?, Hinh=?, LoaiSP=?, Gia=?,GiaSizeLon=? where MaSP =?";
+    String insert = "insert into SanPham (TenSP,TrangThai,MaNV,MoTa,Hinh,LoaiSP) "
+            + "values (?,?,?,?,?,?)";
+    String update = "Update SanPham set TenSP=?, TrangThai=?, MaNV=?, MoTa=?, Hinh=?, LoaiSP=? where MaSP =?";
     String delete = "Delete from SanPham where MaSP = ?";
     String TenSP = "Select TenSP from SanPham where LoaiSP = ?";
     String MaSP = "Select MaSP from SanPham where TenSP = ?";
     String LoaiSP = "Select distinct LoaiSP from SanPham";
     String Size = "select size from GiaSanPham where MaSP = ?";
 
+    
     public float getGiaByMaSPAndSize(int maSP, String size) {
         float gia = -1.0f;
         try {
             ResultSet rs = JDBCHelper.executeQuery("SELECT Gia FROM GiaSanPham WHERE MaSP = ? AND Size = ?", maSP, size);
-                if (rs.next()) {
-                    gia = rs.getFloat("Gia");
+            if (rs.next()) {
+                gia = rs.getFloat("Gia");
             }
         } catch (SQLException e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
         }
-
         return gia;
     }
-
     @Override
     public SanPham getByID(Integer maSP) {
         List<SanPham> list = select(selectByID, maSP);
         return list.size() > 0 ? list.get(  0) : null;
     }
+    
     public List<String> getSize(int MaSP) {
         List<String> sizeList = new ArrayList<>();
         try {
@@ -129,7 +129,7 @@ public class SanPhamDao implements SanPhamDAOinterface {
                     list.add(model);
                 }
             } finally {
-             //   rs.getStatement().getConnection().close();
+                rs.getStatement().getConnection().close();
             }
         } catch (SQLException ex) {
             throw new RuntimeException(ex);

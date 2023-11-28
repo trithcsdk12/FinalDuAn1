@@ -25,10 +25,11 @@ public class SanPhamJPanel extends javax.swing.JPanel {
         initComponents();
         setOpaque(false);
         setSize(1100, 800);
-        fillTable();
+        fillTableDSSP();
+        fillTableSPCT();
     }
 
-    void fillTable() {
+    void fillTableDSSP() {
         DefaultTableModel model = (DefaultTableModel) tblSanPham.getModel();
         model.setRowCount(0);
         try {
@@ -41,15 +42,32 @@ public class SanPhamJPanel extends javax.swing.JPanel {
                     sp.getMaNV(),
                     sp.getMoTa(),
                     sp.getHinh(),
-                    sp.getLoaiSP(),
-                    sp.getGia(),
-                    sp.getGiaSizeLon(),};
+                    sp.getLoaiSP()
+                };
                 model.addRow(row);
             }
         } catch (Exception e) {
             System.out.println("Loi du lieu");
         }
+    }
 
+    void fillTableSPCT() {
+        DefaultTableModel model = (DefaultTableModel) tblChiTiet.getModel();
+        model.setRowCount(0);
+        try {
+            List<SanPham> list = dao.getAll();
+            for (SanPham sp : list) {
+                Object row[] = {
+                    sp.getMaGSP(),
+                    sp.getMaSP(),
+                    sp.getSize(),
+                    sp.getGia()
+                };
+                model.addRow(row);
+            }
+        } catch (Exception e) {
+            System.out.println("Loi du lieu");
+        }
     }
 
     /**
