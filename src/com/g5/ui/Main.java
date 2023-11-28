@@ -163,7 +163,7 @@ public class Main extends javax.swing.JFrame {
                     showForm(new SanPhamJPanel());
                 }
                 if (index == 4) {
-                       showForm(new KhuyenMai());
+                    showForm(new KhuyenMai());
                 }
                 if (index == 5) {
                     showForm(new ThongKeJPanel());
