@@ -257,7 +257,7 @@ public class HoaDonJPanel extends javax.swing.JPanel {
         btnTimKiem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/g5/image/Search.png"))); // NOI18N
         btnTimKiem.setText("Tìm Kiếm");
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Hóa Đơn", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 1, 18), new java.awt.Color(0, 0, 0))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Hóa Đơn", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 1, 18))); // NOI18N
 
         btnPrev.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnPrev.setText("<<");
@@ -636,7 +636,6 @@ public class HoaDonJPanel extends javax.swing.JPanel {
         jLabel18.setText("Tiền trả khách:");
 
         jLabel19.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel19.setForeground(new java.awt.Color(0, 0, 0));
         jLabel19.setText("9.200.000");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
