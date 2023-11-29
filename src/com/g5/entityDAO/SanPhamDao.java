@@ -8,6 +8,7 @@ import com.g5.entityDAO.SanPhamDao;
 import com.g5.entity.SanPham;
 import com.g5.util.JDBCHelper;
 import com.g5.DAO.SanPhamDAOinterface;
+import com.g5.entity.NhanVien;
 import java.sql.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -29,6 +30,12 @@ public class SanPhamDao implements SanPhamDAOinterface {
     String MaSP = "Select MaSP from SanPham where TenSP = ?";
     String LoaiSP = "Select distinct LoaiSP from SanPham";
     String Size = "select size from GiaSanPham where MaSP = ?";
+    String selectLast = "select * from SanPham order by MaSP desc";
+
+    public SanPham getByIDLast() {
+        List<SanPham> list = select(selectLast);
+        return list.size() > 0 ? list.get(0) : null;
+    }
 
     public float getGiaByMaSPAndSize(int maSP, String size) {
         float gia = -1.0f;

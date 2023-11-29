@@ -149,8 +149,23 @@ public class SanPhamJPanel extends javax.swing.JPanel {
     void editCT() {
         Integer maSP = (Integer) tblChiTiet.getValueAt(this.row, 0);
         SanPham sp = dao.getByID(maSP);
-        this.setFormSP(sp);
+        this.setFormCT(sp);
         this.updateStatusSP();
+    }
+    
+    void setFormCT(SanPham sp) {
+        txtMaSP.setText(String.valueOf(sp.getMaSP()));
+        txtTenSP.setText(sp.getTenSP());
+        txtMaNV.setText(String.valueOf(sp.getMaNV()));
+        cboLoaiSP.setSelectedItem(sp.getLoaiSP());
+        txtMoTa.setText(sp.getMoTa());
+        if (sp.isTrangthai() == true) {
+            rdoCon.setSelected(true);
+        } else if (sp.isTrangthai() == false) {
+            rdoHet.setSelected(true);
+        }
+        txtHinh.setText(sp.getHinh());
+        lblHinh.setToolTipText(sp.getHinh());
     }
 
     void setFormSP(SanPham sp) {
@@ -567,6 +582,11 @@ public class SanPhamJPanel extends javax.swing.JPanel {
                 "Mã GSP", "Mã SP", "Size", "Giá"
             }
         ));
+        tblChiTiet.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tblChiTietMousePressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblChiTiet);
 
         btnFirst1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -780,7 +800,7 @@ public class SanPhamJPanel extends javax.swing.JPanel {
                     .addComponent(jScrollPane10))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -943,6 +963,12 @@ public class SanPhamJPanel extends javax.swing.JPanel {
     private void txtHinhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHinhActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtHinhActionPerformed
+
+    private void tblChiTietMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblChiTietMousePressed
+        // TODO add your handling code here:
+        this.row = tblChiTiet.getSelectedRow();
+        this.editCT();
+    }//GEN-LAST:event_tblChiTietMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
