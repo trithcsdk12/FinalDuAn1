@@ -30,7 +30,6 @@ public class SanPhamDao implements SanPhamDAOinterface {
     String LoaiSP = "Select distinct LoaiSP from SanPham";
     String Size = "select size from GiaSanPham where MaSP = ?";
 
-    
     public float getGiaByMaSPAndSize(int maSP, String size) {
         float gia = -1.0f;
         try {
@@ -43,12 +42,13 @@ public class SanPhamDao implements SanPhamDAOinterface {
         }
         return gia;
     }
+
     @Override
     public SanPham getByID(Integer maSP) {
         List<SanPham> list = select(selectByID, maSP);
-        return list.size() > 0 ? list.get(  0) : null;
+        return list.size() > 0 ? list.get(0) : null;
     }
-    
+
     public List<String> getSize(int MaSP) {
         List<String> sizeList = new ArrayList<>();
         try {
@@ -62,8 +62,6 @@ public class SanPhamDao implements SanPhamDAOinterface {
         }
         return sizeList;
     }
-
-
 
     public int getMaNVByTenSP(String tenSP) {
         try {
@@ -94,7 +92,6 @@ public class SanPhamDao implements SanPhamDAOinterface {
                     sp.getHinh(),
                     sp.getLoaiSP()
             );
-
             return sp.getMaSP();
         } catch (Exception e) {
             e.printStackTrace();
@@ -110,7 +107,8 @@ public class SanPhamDao implements SanPhamDAOinterface {
                 sp.getMaNV(),
                 sp.getMoTa(),
                 sp.getHinh(),
-                sp.getMaNV());
+                sp.getLoaiSP(),
+                sp.getMaSP());
     }
 
     @Override
@@ -129,7 +127,7 @@ public class SanPhamDao implements SanPhamDAOinterface {
                     list.add(model);
                 }
             } finally {
-               // rs.getStatement().getConnection().close();
+                // rs.getStatement().getConnection().close();
             }
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
@@ -148,5 +146,5 @@ public class SanPhamDao implements SanPhamDAOinterface {
         model.setLoaiSP(rs.getString("LoaiSP"));
         return model;
     }
- 
+
 }

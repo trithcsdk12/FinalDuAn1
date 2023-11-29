@@ -18,6 +18,7 @@ public class JDBCHelper {
 
     public static final Properties props = JDBCHelper.loadDbProperties();
     private static Connection connection = null;
+
     /*
 * Nạp driver
      */
@@ -33,7 +34,7 @@ public class JDBCHelper {
 
     public static Connection openConnection() {
         Connection con = null;
-        String url = props.getProperty("url")+props.getProperty("dtbname");
+        String url = props.getProperty("url") + props.getProperty("dtbname");
         String user = props.getProperty("user");
         String pass = props.getProperty("pass");
         try {
@@ -81,8 +82,9 @@ public class JDBCHelper {
 //     */
     public static PreparedStatement prepareStatement(String sql, Object... args) throws SQLException {
         //Connection connection = DriverManager.getConnection(dburl, username, password);
+        Connection connection = openConnection();
         PreparedStatement pstmt = null;
-        
+
         if (sql.trim().contains("{")) {
             pstmt = connection.prepareCall(sql);
         } else {
@@ -140,6 +142,6 @@ public class JDBCHelper {
 
         Connection c = connection;
 
-            System.out.println(props.getProperty("url"));
+        System.out.println(props.getProperty("url"));
     }
 }
