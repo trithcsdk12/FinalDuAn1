@@ -19,6 +19,7 @@ public class JDBCHelper {
     public static final Properties props = JDBCHelper.loadDbProperties();
     private static Connection connection = null;
 
+
     /*
 * Nạp driver
      */
@@ -142,6 +143,6 @@ public class JDBCHelper {
 
         Connection c = connection;
 
-        System.out.println(props.getProperty("url"));
+      //  System.out.println(props.getProperty("url"));
     }
 }

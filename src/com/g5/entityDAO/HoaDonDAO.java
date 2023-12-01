@@ -37,6 +37,10 @@ public class HoaDonDAO implements HoaDonDAOinterface {
         List<HoaDon> list = select(last);
         return list.size() > 0 ? String.valueOf(list.get(0).getMaHD() + 1).trim() : "Lỗi truy vấn";
     }
+     public List<HoaDon> select() {//
+        String sql = "SELECT * FROM HoaDon";
+        return select(sql);
+    }
 
     @Override
     public List<HoaDon> getAll() {

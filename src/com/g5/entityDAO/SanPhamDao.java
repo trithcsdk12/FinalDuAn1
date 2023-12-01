@@ -49,6 +49,11 @@ public class SanPhamDao implements SanPhamDAOinterface {
         }
         return gia;
     }
+    public List<SanPham> select() {//
+        String sql = "SELECT * FROM SanPham";
+        return select(sql);
+    }
+
 
     @Override
     public SanPham getByID(Integer maSP) {

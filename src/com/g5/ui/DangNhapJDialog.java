@@ -73,6 +73,11 @@ public class DangNhapJDialog extends javax.swing.JDialog {
         jLabel6.setText("Tên đăng nhập");
 
         txtMaNV1.setText("NV1");
+        txtMaNV1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtMaNV1ActionPerformed(evt);
+            }
+        });
 
         jLabel11.setForeground(new java.awt.Color(255, 51, 51));
         jLabel11.setText("Vui lòng nhập tài khoản");
@@ -200,6 +205,10 @@ public class DangNhapJDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_jLabel4MouseClicked
+
+    private void txtMaNV1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaNV1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtMaNV1ActionPerformed
 
     NhanVienDAOinterface dao = new NhanVienDAOImpl();
 
